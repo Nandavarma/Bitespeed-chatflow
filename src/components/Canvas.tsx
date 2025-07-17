@@ -6,7 +6,6 @@ import {
   addEdge,
   Controls,
   Background,
-  MiniMap,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -45,7 +44,6 @@ export default function Canvas() {
         fitView
       >
         <Controls />
-        <MiniMap />
         <Background variant="dots" gap={12} size={1} />
       </ReactFlow>
     </div>
