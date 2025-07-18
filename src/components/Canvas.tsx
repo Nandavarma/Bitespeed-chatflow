@@ -1,5 +1,8 @@
 import { useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
+import type { NodeTypes, NodeProps } from "@xyflow/react";
+import type { ComponentType } from "react";
+
 import {
   ReactFlow,
   useReactFlow,
@@ -8,6 +11,7 @@ import {
   addEdge,
   Controls,
   Background,
+  BackgroundVariant,
 } from "@xyflow/react";
 import type {
   Node,
@@ -37,6 +41,10 @@ export default function Canvas({
   setEdges,
   setSelectedNodeId,
 }: CanvasProps) {
+  const nodeTypes: NodeTypes = {
+    textNode: TextNode as unknown as ComponentType<NodeProps>,
+  };
+
   const { addNodes, screenToFlowPosition } = useReactFlow();
   // useCallback is use throughout so that no unnecessary recreation of items is made.
   const onDrop = useCallback(
@@ -72,7 +80,7 @@ export default function Canvas({
   }, []);
 
   const onNodesChange = useCallback(
-    (changes: NodeChange[]) => {
+    (changes: NodeChange<Node<NodeData>>[]) => {
       setNodes((nds) => applyNodeChanges(changes, nds));
     },
     [setNodes]
@@ -140,10 +148,10 @@ export default function Canvas({
         onDragOver={onDragOver}
         onNodeClick={onNodeClick}
         fitView
-        nodeTypes={{ textNode: TextNode }}
+        nodeTypes={nodeTypes}
       >
         <Controls />
-        <Background variant="dots" gap={12} size={1} />
+        <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
 
       <ToastContainer position="bottom-right" />
